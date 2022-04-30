@@ -1,0 +1,100 @@
+<html>
+  <head>
+    <title>GeekSpod</title>
+    <link rel="stylesheet" href="index.css">
+  </head>
+  <style>
+    #customers {
+      font-family: Arial, Helvetica, sans-serif;
+      border-collapse: collapse;
+      align-content: center;
+      margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+    }
+    
+    #customers td, #customers th {
+      border: 1px solid #ddd;
+      padding: 8px;
+    }
+    
+
+    #customers tr:nth-child(even){background-color: #f2f2f2;}
+    
+    #customers tr:hover {background-color: #ddd;}
+    
+    #customers th {
+      padding-top: 12px;
+      padding-bottom: 12px;
+      text-align: left;
+      background-color: #04AA6D;
+      color: white;
+    }
+    </style>
+  <body>
+    <h1 style="text-align: center;">GeekSpod</h1>
+    <br>
+    <img style="display: block; margin-left: auto; margin-right: auto; width: 45%; height:45%"  src="{{ url_for('video_feed') }}">
+    <br>
+    <br>
+    <br>
+
+<table id ="customers">
+
+  <tr>
+    <th>
+      Sr#
+    </th>
+  <th>
+    Tracking IDs
+  </th>
+  <th>
+Action
+  </th>
+</tr>
+    {% for item in my_list %}    
+    <tr>      
+        <td>{{loop.index}}</td>         
+        <td>{{item[0]}}</td>''
+        <td ><button class="{{item[1]}}" style="background-color: #04AA6D; color:white; height:40px; width:200px; align-content: center;" onclick="showID('{{item[1]}}','{{loop.index}}')" >ENABLE TRACKING</button></td>
+                    
+    </tr>
+{% endfor %} 
+</table>
+    <br>
+  </body>
+  <script>
+    function showID(id , index) {
+  className = document.getElementsByClassName(id)[0]
+  
+  var generated_ids_list = []
+  for(var i = 0; i < "{{list_count}}" ; i++){
+    if (i != index-1){
+    generated_ids_list.push("S"+String(i+1));
+    }
+  }
+
+  if (className.innerText === "ENABLE TRACKING"){
+    className.innerText = "DISABLE TRACKING";
+    className.style.backgroundColor = "red";
+    for (var i = 0 ; i < generated_ids_list.length ; i++){
+      temp_class = document.getElementsByClassName(generated_ids_list[i])[0]
+      temp_class.disabled = true
+      temp_class.style.backgroundColor = "gray";
+    }
+
+  }
+  else{
+    className.innerText = "ENABLE TRACKING";
+    className.style.backgroundColor = "#04AA6D";
+    for (var i = 0 ; i < generated_ids_list.length ; i++){
+      temp_class = document.getElementsByClassName(generated_ids_list[i])[0]
+      temp_class.disabled = false
+      temp_class.style.backgroundColor = "#04AA6D";
+    }
+  }
+
+
+}
+  </script>
+</html>
